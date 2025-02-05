@@ -7,7 +7,7 @@ window.onload = () => {
     ctx = canvas.getContext("2d");
 
     class Tetromino {
-        static COLORS = ["blue", "green", "red", "orange", "light-blue", "purple"]
+        static COLORS = ["blue", "green", "yellow", "red", "orange", "light-blue", "purple"]
         static BLOCK_SIZE = 28;
         static DELAY = 400;
         static  DELAY_INCREASED = 5;
