@@ -7,7 +7,7 @@ window.onload = () => {
     ctx = canvas.getContext("2d");
 
     class Tetromino {
-        static COLORS = ["blue", "green", "yellow", "red", "orange", "light-blue", "purple"]
+        static COLORS = ["blue", "green", "yellow", "red", "orange", "light-blue", "purple"];
         static BLOCK_SIZE = 28;
         static DELAY = 400;
         static  DELAY_INCREASED = 5;
@@ -16,7 +16,7 @@ window.onload = () => {
             this.x = xs;
             this.y = ys;
             this.length = xs.length;
-            if(color !== null) {
+            if (color !== null) {
                 this.color = color;
                 this.img = new Image();
                 this.img.src = `resources/${Tetromino.COLORS[color]}.jpg`
@@ -24,7 +24,7 @@ window.onload = () => {
         }
 
         update(updFunc){
-            for (let i = 0; i < this.length; ++i){
+            for (let i = 0; i < this.length; ++i) {
                 ctx.clearRect(
                     this.x[i] * Tetromino.BLOCK_SIZE,
                     this.y[i] * Tetromino.BLOCK_SIZE,
@@ -44,7 +44,7 @@ window.onload = () => {
                 return;
             }
             // print the current tetromine
-            for(let i = 0; i < this.length; ++i) {
+            for (let i = 0; i < this.length; ++i) {
                 ctx.drawImage(
                     this.img,
                     this.x[i] * Tetromino.BLOCK_SIZE,
@@ -56,9 +56,9 @@ window.onload = () => {
         }
 
         collides(checkFunc) {
-            for(let i = 0; i < this.length; ++i) {
-                const {x, y} = checkFunc(i);
-            if (x < 0 || x >= FIELD_WIDTH || y < 0 || y >= FIELD_HEIGHT || FIELD[y][x] !== false)
+            for (let i = 0; i < this.length; ++i) {
+                const { x, y } = checkFunc(i);
+                if (x < 0 || x >= FIELD_WIDTH || y < 0 || y >= FIELD_HEIGHT || FIELD[y][x] !== false)
                 return true;
             }
             return false;
@@ -75,20 +75,18 @@ window.onload = () => {
             maxX = Math.max(...this.x),
             minX = Math.min(...this.x),
             minY = Math.min(...this.y),
-            nx=[],
-            ny=[];
+            nx = [],
+            ny = [];
 
             if (!this.collides(i => {
-                nx.push(maxX+minY - tetromino.y[i]);
-                ny.push(tetromino.x[i]-minX+minY);
+                nx.push(maxX + minY - tetromino.y[i]);
+                ny.push(tetromino.x[i] - minX + minY);
                 return { x: nx[i], y: ny[i] };
-            }))
-
-            {
+            })) {
                 this.update(i => {
                     this.x[i] = nx[i];
                     this.y[i] = ny[i];
-                })
+                });
             }
 
         }
@@ -101,13 +99,13 @@ window.onload = () => {
     FIELD = Array.from({ length: FIELD_HEIGHT }),
     MIN_VALID_ROW = 4,
     TETROMINOES = [
-        new Tetromino([0, 0, 0, 0],[0, 1, 2, 3]),
-        new Tetromino([0, 0, 1, 1],[0, 1, 0, 1]),
-        new Tetromino([0, 1, 1, 1],[0, 0, 1, 2]),
-        new Tetromino([0, 0, 0, 1],[0, 1, 2, 0]),
-        new Tetromino([0, 1, 1, 2],[0, 0, 1, 1]),
-        new Tetromino([0, 1, 1, 2],[1, 1, 0, 1]),
-        new Tetromino([0, 1, 1, 2],[1, 1, 0, 0]),
+        new Tetromino([0, 0, 0, 0], [0, 1, 2, 3]),
+        new Tetromino([0, 0, 1, 1], [0, 1, 0, 1]),
+        new Tetromino([0, 1, 1, 1], [0, 0, 1, 2]),
+        new Tetromino([0, 0, 0, 1], [0, 1, 2, 0]),
+        new Tetromino([0, 1, 1, 2], [0, 0, 1, 1]),
+        new Tetromino([0, 1, 1, 2], [1, 1, 0, 1]),
+        new Tetromino([0, 1, 1, 2], [1, 1, 0, 0]),
     ];
 
       let tetromino = null,
@@ -121,7 +119,7 @@ window.onload = () => {
         canvas.style.left = Tetromino.BLOCK_SIZE;
 
         ctx.canvas.width = FIELD_WIDTH * Tetromino.BLOCK_SIZE;
-        ctx.canvas.height = FIELD_WIDTH * Tetromino.BLOCK_SIZE;
+        ctx.canvas.height = FIELD_HEIGHT * Tetromino.BLOCK_SIZE;
         
 
         // Scale Background
@@ -154,7 +152,7 @@ window.onload = () => {
         if (tetromino) {
 
             // Collision?
-            if (tetromino.collides(i=> ({x:tetromino.x[i], y:tetromino.y[i] + 1}))) {
+            if (tetromino.collides(i => ({ x: tetromino.x[i], y:tetromino.y[i] + 1}))) {
 
                 tetromino.merge();
                 // Prepare for new tetromino 
@@ -162,10 +160,10 @@ window.onload = () => {
 
                 // Check for completed rows
                 let completedRows = 0;
-                for (let y = FIELD_HEIGHT-1;y>= MIN_VALID_ROW; --y)
-                    if (FIELD[y].every(e => e!==false)){
+                for (let y = FIELD_HEIGHT - 1; y>= MIN_VALID_ROW; --y)
+                    if (FIELD[y].every(e => e!==false)) {
                         for (let ay = y; ay >= MIN_VALID_ROW; --ay)
-                            FIELD[ay] = [...FIELD[ay-1]];
+                            FIELD[ay] = [...FIELD[ay - 1]];
 
                         ++completedRows;
                         // Keep the same row
@@ -201,11 +199,11 @@ window.onload = () => {
             linesLbl.innerText = lines;
 
             // Create random tetromino
-            tetromino = (({x, y}, color) =>
+            tetromino = (({ x, y }, color) =>
                 new Tetromino([...x], [...y], color)
             )(
             TETROMINOES[Math.floor(Math.random() * (TETROMINOES.length - 1))],
-            Math.floor(Math.random() * (Tetromino.COLORS.lenght - 1))
+            Math.floor(Math.random() * (Tetromino.COLORS.length - 1))
             );
 
             tetromino.draw();
@@ -218,11 +216,11 @@ window.onload = () => {
     window.onkeydown = event => {
         switch(event.key) {
             case "ArrowLeft":
-                if (!tetromino.collides(i => ( {x: tetromino.x[i] -1, y:tetromino.y[i] })))
+                if (!tetromino.collides(i => ({x: tetromino.x[i] -1, y:tetromino.y[i] })))
                     tetromino.update(i => --tetromino.x[i]);
                 break;
             case "ArrowRight":
-                if (!tetromino.collides(i => ({ x: tetromino.x[i] +1, y:tetromino.y[i] })))
+                if (!tetromino.collides(i => ({ x: tetromino.x[i] + 1, y:tetromino.y[i] })))
                     tetromino.update(i => ++tetromino.x[i]);
                 break;
             case "ArrowDown":
